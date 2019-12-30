@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-unfetch'
+require('dotenv').config()
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
-
-const base = "https://api.tink.se/api/v1";
+const TINK_API_URL = process.env.TINK_API_URL;
 
 export default async (req, res) => {
   try {
@@ -35,7 +35,7 @@ async function getAccessToken(code) {
     }
   }
 
-  const response = await fetch(base + "/oauth/token", req);
+  const response = await fetch(TINK_API_URL + "/oauth/token", req);
 
   return handleResponse(response);
 }
@@ -65,7 +65,7 @@ async function getData(accessToken) {
 }
 
 async function getUserData(token) {
-  const response = await fetch(base + "/user", {
+  const response = await fetch(TINK_API_URL + "/user", {
     headers: {
       Authorization: "Bearer " + token
     }
@@ -75,7 +75,7 @@ async function getUserData(token) {
 }
 
 async function getAccountData(token) {
-  const response = await fetch(base + "/accounts/list", {
+  const response = await fetch(TINK_API_URL + "/accounts/list", {
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
@@ -86,7 +86,7 @@ async function getAccountData(token) {
 }
 
 async function getInvestmentData(token) {
-  const response = await fetch(base + "/investments", {
+  const response = await fetch(TINK_API_URL + "/investments", {
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
@@ -97,7 +97,7 @@ async function getInvestmentData(token) {
 }
 
 async function getTransactionData(token) {
-  const response = await fetch(base + "/search", {
+  const response = await fetch(TINK_API_URL + "/search", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -110,7 +110,7 @@ async function getTransactionData(token) {
 }
 
 async function getCategoryData(token) {
-  const response = await fetch(base + "/categories", {
+  const response = await fetch(TINK_API_URL + "/categories", {
     headers: {
       Authorization: "Bearer " + token
     }
