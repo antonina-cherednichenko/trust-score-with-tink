@@ -1,4 +1,4 @@
-# API routes with REST
+# Trust score with Tink using Next.js
 
 ## Deploy your own
 
