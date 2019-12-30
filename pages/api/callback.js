@@ -46,21 +46,32 @@ async function getData(accessToken) {
     userData,
     accountData,
     investmentData,
-    transactionData
+    transactionData,
+    statisticsData,
   ] = await Promise.all([
     getCategoryData(accessToken),
     getUserData(accessToken),
     getAccountData(accessToken),
     getInvestmentData(accessToken),
-    getTransactionData(accessToken)
+    getTransactionData(accessToken),
+    getStatistics(accessToken),
   ]);
+
+  // Print results
+  console.log("Category data = ", categoryData);
+  console.log("User data = ", userData);
+  console.log("Account data = ", accountData);
+  console.log("Investment data = ", investmentData);
+   console.log("Transaction data = ", transactionData);
+   console.log("Statistics data = ", statisticsData);
 
   return {
     categoryData,
     userData,
     accountData,
     investmentData,
-    transactionData
+    transactionData,
+    statisticsData
   };
 }
 
@@ -114,6 +125,33 @@ async function getCategoryData(token) {
     headers: {
       Authorization: "Bearer " + token
     }
+  });
+
+  return handleResponse(response);
+}
+
+async function getStatistics(token) {
+  console.log("body = ", {
+    description: "ed909bd383f245aabab53d3e3ee8e4bf",
+    padResultUntilToday: true,
+    periods: ["2014-02-11","2014-02-12"],
+    resolution: "DAILY",
+    types: ["expenses-by-category"]
+  });
+
+  const response = await fetch(TINK_API_URL + "/statistics/query", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
+    body: JSON.stringify({
+      description: "ed909bd383f245aabab53d3e3ee8e4bf",
+      padResultUntilToday: true,
+      periods: ["2019"],
+      resolution: "YEARLY",
+      types: ["expenses-by-category"]
+    })
   });
 
   return handleResponse(response);
